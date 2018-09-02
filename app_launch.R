@@ -1,4 +1,4 @@
-setwd("/Users/alexandriaguo/Desktop/thesis/ROCapp")
+setwd("/Users/alexandriaguo/Desktop/thesis/ROC_app")
 library(shiny)
 
 #data(BreastCancer)
@@ -11,7 +11,7 @@ library(shiny)
 # y=x line to compare
 # ability to save previous ROC plots / refresh
 
-runApp("ROCapp")
+runApp("ROC_app")
 
 # 01_hello ; 02_text ; 03_reactivity ; 04_mpg ; 05_sliders ; 06_tabsets ;
 # 07_widgets ; 08_html ; 09_upload ; 10_download ; 11_timer
