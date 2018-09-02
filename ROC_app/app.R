@@ -2,7 +2,7 @@ library(shiny)
 library(pROC)
 library(ROCR)
 library(ggplot2)
-setwd("/Users/alexandriaguo/Desktop/thesis/test_app")
+setwd("/Users/alexandriaguo/Desktop/thesis/ROCapp")
 
 source("helper.R")
 
