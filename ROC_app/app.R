@@ -1,4 +1,5 @@
 library(shiny)
+library(mlbench)
 library(pROC)
 library(ROCR)
 library(ggplot2)
@@ -17,7 +18,8 @@ ui <- fluidPage (
       
       selectInput(inputId = "dataset",
                   label = "Choose a dataset:",
-                  choices = c("Adult Salaries")
+                  choices = c("Adult Salaries",
+                              "Pima Indians Diabetes")
       ),
       selectInput(inputId = "model",
                   label = "Choose a model/link function:",
@@ -44,7 +46,8 @@ server <- function(input, output) {
     
     ## PARTITION DATASET
     data <- switch(input$dataset,
-                   "Adult Salaries" = adult)
+                   "Adult Salaries" = adult,
+                   "Pima Indians Diabetes" = pima)
     model <-switch(input$model,
                    "logistic" = "logit",
                    "probit" = "probit")
@@ -55,14 +58,14 @@ server <- function(input, output) {
     test <- data[-train_ind,]
     
     ## TEST FIT
-    full.fit <- glm(salary~., family=binomial(link=model), data=train)
+    full.fit <- glm(label~., family=binomial(link=model), data=train)
     prob <- predict.glm(full.fit, newdata=test, type="response")
-    pred <- prediction(prob, test$salary)
+    pred <- prediction(prob, test$label)
     perf <- performance(pred, measure = "tpr", x.measure = "fpr")
     dd <- data.frame(FP = perf@x.values[[1]], TP = perf@y.values[[1]])
     
     roc$data <- dd
-    auc$data <- auc(test$salary, prob)
+    auc$data <- auc(test$label, prob)
   })
   
   output$ROCplot <- renderPlot({
