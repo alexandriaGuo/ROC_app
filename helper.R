@@ -1,5 +1,5 @@
 ## LOAD & CLEAN 'Adult Salaries' DATA
-setwd("/Users/alexandriaguo/Desktop/thesis/ROC_app/ROC_app")
+setwd("/Users/alexandriaguo/Documents/2018-2019/thesis/ROC_app/ROC_app")
 adult <- read.table("data/adult.txt", sep=",", header = FALSE)
 colnames(adult) <- c("age", "workclass", "fnlwgt", "education",
                     "education.num", "marital.status", "occupation",
@@ -19,5 +19,13 @@ adult$salary <- NULL
 library(mlbench)
 data("PimaIndiansDiabetes2") # has 0 values set to NA where physically impossible
 pima <- na.omit(PimaIndiansDiabetes2) # n = 768 to n = 392
+rm(PimaIndiansDiabetes2)
 pima$label <- pima$diabetes
 pima$diabetes <- NULL
+
+## LOAD & CLEAN 'Sonar' DATA
+data("Sonar") # has no NA values
+sonar <- Sonar
+rm(Sonar)
+sonar$label <- sonar$Class
+sonar$Class <- NULL

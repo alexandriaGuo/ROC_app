@@ -1,4 +1,4 @@
-setwd("/Users/alexandriaguo/Desktop/thesis/ROC_app")
+setwd("/Users/alexandriaguo/Documents/2018-2019/thesis/ROC_app")
 library(shiny)
 
 #data(BreastCancer)
