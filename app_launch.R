@@ -3,12 +3,9 @@ library(shiny)
 
 #data(BreastCancer)
 #data(Ionosphere)
-#data(PimaIndiansDiabetes)
-#data(Sonar)
 
 # FEATURES TO ADD
 # tabs for summary, plot, table
-# y=x line to compare
 # ability to save previous ROC plots / refresh
 
 runApp("ROC_app")
