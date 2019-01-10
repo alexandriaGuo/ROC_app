@@ -39,7 +39,8 @@ ui <- fluidPage (
     ),
     mainPanel(
       plotOutput(outputId = "ROCplot"),
-      textOutput(outputId= "AUC")
+      textOutput(outputId= "AUC"),
+      textOutput(outputId= "coord")
     )
   )
 )
@@ -49,8 +50,9 @@ server <- function(input, output) {
   roc <- reactiveValues(main = NULL, layer1 = NULL)
   roc$main <- ggplot() +
     geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1)) +
-    labs(x = '1 - Specificity', y = 'Sensitivity')
+    labs(x = 'FPR', y = 'TPR')
   auc <- reactiveValues(data = NULL) 
+  pt_coord <- reactiveValues(data = NULL)
   test_sub <- reactiveValues(data = NULL)
   
   observeEvent(input$update, {
@@ -85,13 +87,15 @@ server <- function(input, output) {
     roc <- reactiveValues(main = NULL, layer1 = NULL)
     roc$main <- ggplot() +
       geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1)) +
-      labs(x = '1 - Specificity', y = 'Sensitivity') +
+      labs(x = 'FPR', y = 'TPR') +
       guides(color=FALSE)
+    #roc$layer1 <- NULL
   })
   
   observeEvent(input$add_pt, {
     pt <- find_thresh(test_sub$data, input$thresh)
     roc$layer1 <- geom_point(data = pt, aes(x = FP, y = TP), colour = "blue", size = 4)
+    pt_coord$data <- pt
   })
   
   output$ROCplot <- renderPlot({
@@ -100,7 +104,12 @@ server <- function(input, output) {
   
   output$AUC <- renderText({
     if (is.null(auc$data)) paste("The area under the curve is ", 0)
-    else paste("The area under the curve is ", auc$data)
+    else paste("The area under the curve is ", signif(auc$data,4))
+  })
+  
+  output$coord <- renderText({
+    if (is.null(auc$data)) paste("TPR: ", 0, " ; FPR: ", 0)
+    else paste("TPR: ", signif(pt_coord$data[2],4), " ; FPR: ", signif(pt_coord$data[1],4))
   })
 }
 
